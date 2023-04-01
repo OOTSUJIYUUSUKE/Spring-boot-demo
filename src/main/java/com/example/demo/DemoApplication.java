@@ -14,24 +14,16 @@ public class DemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
     }
-
     @GetMapping("/hello")
-
     public String hello(@RequestParam(value = "country", defaultValue = "jp") String value) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime localDateTime = LocalDateTime.now();
         String strDateTime = localDateTime.format(formatter);
-        if (value.equals("us")) {
-            return String.format("Hello World! It's %s.", strDateTime);
-        }
-        else if (value.equals("fr")) {
-            return String.format("Bonjour le monde! Il est %s.", strDateTime);
-        }
-        else if (value.equals("kr")) {
-            return String.format("안녕하세요 세계! 지금 %s 시입니다.", strDateTime);
-        }
-        else {
-            return String.format("こんにちは! 現在時刻は%sです。", strDateTime);
-        }
+        return switch (value) {
+            case "us" -> String.format("Hello World! It's %s.", strDateTime);
+            case "fr" -> String.format("Bonjour le monde! Il est %s.", strDateTime);
+            case "kr" -> String.format("안녕하세요 세계! 지금 %s 시입니다.", strDateTime);
+            default -> String.format("こんにちは世界! 現在時刻は%sです。", strDateTime);
+        };
     }
 }
